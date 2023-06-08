@@ -8,7 +8,11 @@
 .bord-title-input {
   text-align: center;
   border: none;
-  border-bottom: 3px solid;
+  border-bottom: 3px solid !important;
   font-size: 48px;
   width: 350px;
+}
+.bord-title-input:focus {
+  border: none;
+  outline: none;
 }
