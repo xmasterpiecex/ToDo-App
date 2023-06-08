@@ -1,0 +1,14 @@
+.bord-title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.bord-title-input {
+  text-align: center;
+  border: none;
+  border-bottom: 3px solid;
+  font-size: 48px;
+  width: 350px;
+}
