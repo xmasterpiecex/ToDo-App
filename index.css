@@ -12,6 +12,7 @@
   font-size: 48px;
   width: 350px;
 }
+
 .bord-title-input:focus {
   border: none;
   outline: none;
@@ -25,12 +26,11 @@
   justify-content: space-between;
 }
 
-.buttons {
+.action-button {
   height: 50px;
   width: 50px;
   display: flex;
   font-size: 20px;
-
   border-radius: 0px;
   border: none;
   background-color: black;
@@ -39,11 +39,11 @@
   justify-content: center;
 }
 
-.buttons:hover {
+.action-button:hover {
   background-color: #cfdef3;
 }
 
-.image {
+.svg {
   width: 30px;
   height: 30px;
   fill: blueviolet;
@@ -53,7 +53,7 @@
   height: 50px;
   width: 250px;
   font-size: 24px;
-  padding: 0px;
+  padding: 8px;
   box-sizing: border-box;
   border-width: 1px;
   border-right: none;
