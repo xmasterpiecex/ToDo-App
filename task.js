@@ -1,67 +1,52 @@
-const tasks = [
-  {
-    id: '2FEjJKDVCVCMSWEe4691',
-    title: 'Feed dragons',
-    pririty: 'High',
-    priorityIndex: 2,
-  },
-  {
-    id: '1FEjJKDVCVCMSWEe4691',
-    title: 'Give dragons water',
-    pririty: 'High',
-    priorityIndex: 1,
-  },
-  {
-    id: '3FEjJKDVCVCMSWEe4691',
-    title: 'Buy some food for tommorow',
-    pririty: 'High',
-    priorityIndex: 3,
-  },
-  {
-    id: '4FEjJKDVCVCMSWEe4691',
-    title: 'Gym',
-    pririty: 'Middle',
-    priorityIndex: 4,
-  },
-  {
-    id: '1FEjJKDV5VCMSWEe4691',
-    title: 'Read 2 page of new book',
-    pririty: 'Middle',
-    priorityIndex: 5,
-  },
-  {
-    id: '1FEjJKDVCVCMSWE64691',
-    title: 'Take a nap',
-    pririty: 'Middle',
-    priorityIndex: 6,
-  },
-  {
-    id: '1FEjJ7DVCVCMSWEe4691',
-    title: 'Relax',
-    pririty: 'Low',
-    priorityIndex: 7,
-  },
-  {
-    id: '1FEjJK8VCVCMSWEe4691',
-    title: 'Focus',
-    pririty: 'Low',
-    priorityIndex: 8,
-  },
-  {
-    id: '9FEjJKDVCVCMSWEe4691',
-    title: 'Make something',
-    pririty: 'Low',
-    priorityIndex: 9,
-  },
-];
-
 const tasksConteiner = document.getElementById('tasks');
+const buttonAccept = document.getElementById('accept');
+const buttonPriority = document.getElementById('priority');
+const creationTitle = document.getElementById('creationTitle');
 
-tasks
-  .sort((a, b) => a.priorityIndex - b.priorityIndex)
-  .forEach(
-    (task) =>
-      (tasksConteiner.innerHTML += `
+const tasksList = [];
+
+creationTitle.addEventListener('keyup', (e) =>
+  e.keyCode === 13 || e.key === 'Enter' ? createTask() : {}
+);
+
+buttonAccept.addEventListener('click', () => createTask());
+
+creationTitle.addEventListener('input', () => switchCreationButtonState());
+
+function switchCreationButtonState() {
+  const disabled = !creationTitle.value.length;
+  buttonAccept.disabled = disabled;
+  buttonPriority.disabled = disabled;
+}
+
+function createTask() {
+  if (!creationTitle.value.length) return;
+
+  const newObject = {
+    title: `${creationTitle.value}`,
+    id: Math.floor(Math.random() * 10000).toString(),
+    priority: 'medium',
+    priorityIndex:
+      tasksList && tasksList.length ? tasksList[0].priorityIndex + 1 : 1,
+  };
+
+  const isDublicate = tasksList.filter(
+    (task) => task.title === creationTitle.value
+  ).length;
+
+  if (isDublicate) {
+    window.alert('Task is already exist');
+    return;
+  }
+
+  tasksConteiner.innerHTML = '';
+  tasksList.push(newObject);
+
+  tasksList
+    .sort((a, b) => b.priorityIndex - a.priorityIndex)
+    .forEach(
+      (task) =>
+        (tasksConteiner.innerHTML += `
       <div class="card">
         <button class="action-button">
             <img src="./assets/svg/pririty.svg" alt="" class="svg" />
@@ -89,4 +74,8 @@ tasks
         </div>
       </div>
       `)
-  );
+    );
+
+  creationTitle.value = '';
+  switchCreationButtonState();
+}
