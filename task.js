@@ -76,14 +76,14 @@ function createTask() {
       `)
     );
 
-  deleteAction();
+  deleteTask();
 
   creationTitle.value = '';
   switchCreationButtonState();
   console.log(tasksList);
 }
 
-function deleteAction() {
+function deleteTask() {
   const buttonDelete = document.querySelectorAll('#delete');
 
   buttonDelete.forEach((btn) => {
