@@ -76,14 +76,13 @@ function createTask() {
       `)
     );
 
-  deleteTask();
+  subscribeToDeleteEvent();
 
   creationTitle.value = '';
   switchCreationButtonState();
-  console.log(tasksList);
 }
 
-function deleteTask() {
+function subscribeToDeleteEvent() {
   const buttonDelete = document.querySelectorAll('#delete');
 
   buttonDelete.forEach((btn) => {
@@ -91,9 +90,9 @@ function deleteTask() {
       const perentNode = btn.closest('.card');
       const id = Number(perentNode.id);
       const index = tasksList.findIndex((task) => task.id == id);
+
       tasksList.splice(index, 1);
       perentNode.remove();
-      console.log(tasksList, index, id);
     });
   });
 }
