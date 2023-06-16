@@ -30,6 +30,7 @@
   padding: 0px;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .action-button:hover {
@@ -78,6 +79,15 @@
   margin-top: 20px;
 }
 
+.card-container.tasks > .card:first-child > .task-actions > #up {
+  background-color: gray !important;
+  pointer-events: none;
+}
+
+.card-container.tasks > .card:last-child > .task-actions > #down {
+  background-color: gray !important;
+  pointer-events: none;
+}
 .small {
   height: 25px;
   width: 25px;

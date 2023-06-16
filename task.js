@@ -58,13 +58,13 @@ function createTask() {
             <button class="action-button small">
                 <img src="./assets/svg/create.svg" alt="" class="svg small-svg" />
             </button>
-            <button class="action-button small">
+            <button class="action-button small" id = "up">
                 <img src="./assets/svg/arrowup.svg" alt="" class="svg small-svg" />
             </button>
             <button class="action-button small" id="delete">
                 <img src="./assets/svg/delete.svg" alt="" class="svg small-svg" />
             </button>
-            <button class="action-button small">
+            <button class="action-button small" id = "down">
                 <img
                     src="./assets/svg/arrowdown.svg"
                     alt=""
@@ -76,10 +76,60 @@ function createTask() {
       `)
     );
 
+  subscribeToUpEvent();
+
+  subscribeToDownEvent();
+
   subscribeToDeleteEvent();
 
   creationTitle.value = '';
   switchCreationButtonState();
+}
+
+function subscribeToUpEvent() {
+  const buttonUp = document.querySelectorAll('#up');
+
+  buttonUp.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const firstNode = btn.closest('.card');
+      const id = Number(firstNode.id);
+      const index = tasksList.findIndex((task) => task.id == id);
+
+      const secTask = tasksList[index - 1];
+      const secNode = document.getElementById(secTask.id);
+
+      [tasksList[index], tasksList[index - 1]] = [
+        tasksList[index - 1],
+        tasksList[index],
+      ];
+
+      secNode.parentNode.insertBefore(secNode, firstNode);
+      firstNode.parentNode.insertBefore(secNode, firstNode.nextSibling);
+    });
+  });
+}
+
+function subscribeToDownEvent() {
+  const buttonDown = document.querySelectorAll('#down');
+
+  buttonDown.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const firstNode = btn.closest('.card');
+      const id = Number(firstNode.id);
+      const index = tasksList.findIndex((task) => task.id == id);
+
+      const secTask = tasksList[index + 1];
+      const secNode = document.getElementById(secTask.id);
+
+      [tasksList[index], tasksList[index + 1]] = [
+        tasksList[index + 1],
+        tasksList[index],
+      ];
+
+      firstNode.parentNode.insertBefore(firstNode, secNode);
+      secNode.parentNode.insertBefore(firstNode, secNode.nextSibling);
+    });
+  });
 }
 
 function subscribeToDeleteEvent() {
