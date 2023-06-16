@@ -1,9 +1,22 @@
+import { MockServer} from './mock-server/mock-server.js';
+
 const tasksConteiner = document.getElementById('tasks');
 const creationTitle = document.getElementById('creationTitle');
 const buttonAccept = document.getElementById('accept');
-const buttonPriority = document.getElementById('priority');
+const buttonPriority = document.getElementById('priority'); 
 
-const tasksList = [];
+const server = new MockServer();
+let tasksList = [];
+
+// Get tasks from server
+server.getTasks().then((tasksList) => init(tasksList));
+
+//ToDo: Implement init function. Display tasks in page
+function init(task) { 
+  tasksList = task;
+  // console.log(tasksList)
+}
+
 
 creationTitle.addEventListener('keyup', (e) =>
   e.keyCode === 13 || e.key === 'Enter' ? createTask() : {}
