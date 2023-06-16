@@ -51,7 +51,7 @@ function init(tasks) {
   subscribeToDeleteEvent();
   subscribeToUpEvent();
   subscribeToDownEvent();
-  console.log(tasksList);
+ 
 }
 
 creationTitle.addEventListener('keyup', (e) =>
