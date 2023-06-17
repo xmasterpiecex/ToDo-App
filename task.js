@@ -1,4 +1,5 @@
 import { MockServer } from './mock-server/mock-server.js';
+import { getTaskTamplate } from './tamplates/task.tamplate.js';
 
 const tasksConteiner = document.getElementById('tasks');
 const creationTitle = document.getElementById('creationTitle');
@@ -14,49 +15,14 @@ server.getTasks().then((tasksList) => init(tasksList));
 //ToDo: Implement init function. Display tasks in page
 function init(tasks) {
   tasksList = tasks;
-  tasks
-    .sort((a, b) => b.priorityIndex - a.priorityIndex)
-    .forEach(
-      (task) =>
-        (tasksConteiner.innerHTML += `
-      <div class="card" id="${task.id}">
-        <button class="action-button">
-            <img src="./assets/svg/pririty.svg" alt="" class="svg" />
-        </button>
-        <div class="card-title">
-            <span>${task.title}</span>
-        </div>
-        <div class="task-actions">
-            <button class="action-button small">
-                <img src="./assets/svg/create.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id = "up">
-                <img src="./assets/svg/arrowup.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id="delete">
-                <img src="./assets/svg/delete.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id = "down">
-                <img
-                    src="./assets/svg/arrowdown.svg"
-                    alt=""
-                    class="svg small-svg"
-                />
-            </button>
-        </div>
-      </div>
-      `)
-    );
+  tasks.sort((a, b) => b.priorityIndex - a.priorityIndex).forEach((task) => (tasksConteiner.innerHTML += getTaskTamplate(task.id, task.title)));
 
   subscribeToDeleteEvent();
   subscribeToUpEvent();
   subscribeToDownEvent();
- 
 }
 
-creationTitle.addEventListener('keyup', (e) =>
-  e.keyCode === 13 || e.key === 'Enter' ? createTask() : {}
-);
+creationTitle.addEventListener('keyup', (e) => (e.keyCode === 13 || e.key === 'Enter' ? createTask() : {}));
 
 buttonAccept.addEventListener('click', () => createTask());
 
@@ -75,13 +41,10 @@ function createTask() {
     title: `${creationTitle.value}`,
     id: Math.floor(Math.random() * 10000).toString(),
     priority: 'medium',
-    priorityIndex:
-      tasksList && tasksList.length ? tasksList[0].priorityIndex + 1 : 1,
+    priorityIndex: tasksList && tasksList.length ? tasksList[0].priorityIndex + 1 : 1,
   };
 
-  const isDublicate = tasksList.filter(
-    (task) => task.title === creationTitle.value
-  ).length;
+  const isDublicate = tasksList.filter((task) => task.title === creationTitle.value).length;
 
   if (isDublicate) {
     window.alert('Task is already exist');
@@ -90,35 +53,7 @@ function createTask() {
 
   tasksList.unshift(newTask);
 
-  tasksConteiner.innerHTML =
-    `
-      <div class="card" id="${newTask.id}">
-        <button class="action-button">
-            <img src="./assets/svg/pririty.svg" alt="" class="svg" />
-        </button>
-        <div class="card-title">
-            <span>${newTask.title}</span>
-        </div>
-        <div class="task-actions">
-            <button class="action-button small">
-                <img src="./assets/svg/create.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id = "up">
-                <img src="./assets/svg/arrowup.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id="delete">
-                <img src="./assets/svg/delete.svg" alt="" class="svg small-svg" />
-            </button>
-            <button class="action-button small" id = "down">
-                <img
-                    src="./assets/svg/arrowdown.svg"
-                    alt=""
-                    class="svg small-svg"
-                />
-            </button>
-        </div>
-      </div>
-      ` + tasksConteiner.innerHTML;
+  tasksConteiner.innerHTML = getTaskTamplate(newTask.id, newTask.title) + tasksConteiner.innerHTML;
 
   subscribeToUpEvent();
 
@@ -142,10 +77,7 @@ function subscribeToUpEvent() {
       const secTask = tasksList[index - 1];
       const secNode = document.getElementById(secTask.id);
 
-      [tasksList[index], tasksList[index - 1]] = [
-        tasksList[index - 1],
-        tasksList[index],
-      ];
+      [tasksList[index], tasksList[index - 1]] = [tasksList[index - 1], tasksList[index]];
 
       secNode.parentNode.insertBefore(secNode, firstNode);
       firstNode.parentNode.insertBefore(secNode, firstNode.nextSibling);
@@ -165,10 +97,7 @@ function subscribeToDownEvent() {
       const secTask = tasksList[index + 1];
       const secNode = document.getElementById(secTask.id);
 
-      [tasksList[index], tasksList[index + 1]] = [
-        tasksList[index + 1],
-        tasksList[index],
-      ];
+      [tasksList[index], tasksList[index + 1]] = [tasksList[index + 1], tasksList[index]];
 
       firstNode.parentNode.insertBefore(firstNode, secNode);
       secNode.parentNode.insertBefore(firstNode, secNode.nextSibling);
