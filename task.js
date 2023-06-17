@@ -2,16 +2,15 @@ import { getTaskTamplate } from './tamplates/task.tamplate.js';
 
 let tasksList = [];
 
-//ToDo: Implement init function. Display tasks in page
 export function init(tasks, tasksConteinerElement) {
   tasksList = tasks;
-  tasks
-    .sort((a, b) => b.priorityIndex - a.priorityIndex)
-    .forEach((task) => (tasksConteinerElement.innerHTML += getTaskTamplate(task.id, task.title)));
 
-  subscribeToDeleteEvent();
-  subscribeToUpEvent();
-  subscribeToDownEvent();
+  tasksList
+    .sort((a, b) => b.priorityIndex - a.priorityIndex)
+    .forEach((task) => {
+      tasksConteinerElement.insertAdjacentHTML('beforeEnd', getTaskTamplate(task.id, task.title));
+      subToForm(task);
+    });
 }
 
 export function create(tasksConteinerElement, creationTitleElement) {
@@ -33,11 +32,9 @@ export function create(tasksConteinerElement, creationTitleElement) {
 
   tasksList.unshift(newTask);
 
-  tasksConteinerElement.innerHTML = getTaskTamplate(newTask.id, newTask.title) + tasksConteinerElement.innerHTML;
+  tasksConteinerElement.insertAdjacentHTML('afterBegin', getTaskTamplate(newTask.id, newTask.title));
 
-  subscribeToUpEvent();
-  subscribeToDownEvent();
-  subscribeToDeleteEvent();
+  subToForm(newTask);
   creationTitleElement.value = '';
 }
 
@@ -47,57 +44,51 @@ export function switchCreationButtonState(buttonPriorityElement, buttonAcceptEle
   buttonPriorityElement.disabled = disabled;
 }
 
-function subscribeToUpEvent() {
-  const buttonUp = document.querySelectorAll('#up');
+function subToForm(task) {
+  const taskForm = document.getElementById(task.id);
 
-  buttonUp.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const firstNode = btn.closest('.card');
-      const id = Number(firstNode.id);
-      const index = tasksList.findIndex((task) => task.id == id);
+  taskForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    switch (event.submitter.id) {
+      case 'delete': {
+        const id = Number(taskForm.id);
+        const index = tasksList.findIndex((task) => task.id == id);
 
-      const secTask = tasksList[index - 1];
-      const secNode = document.getElementById(secTask.id);
+        tasksList.splice(index, 1);
+        taskForm.remove();
+        break;
+      }
 
-      [tasksList[index], tasksList[index - 1]] = [tasksList[index - 1], tasksList[index]];
+      case 'up': {
+        const id = Number(taskForm.id);
+        const index = tasksList.findIndex((task) => task.id == id);
 
-      secNode.parentNode.insertBefore(secNode, firstNode);
-      firstNode.parentNode.insertBefore(secNode, firstNode.nextSibling);
-    });
-  });
-}
+        const secTask = tasksList[index - 1];
+        const secNode = document.getElementById(secTask.id);
 
-function subscribeToDownEvent() {
-  const buttonDown = document.querySelectorAll('#down');
+        [tasksList[index], tasksList[index - 1]] = [tasksList[index - 1], tasksList[index]];
 
-  buttonDown.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const firstNode = btn.closest('.card');
-      const id = Number(firstNode.id);
-      const index = tasksList.findIndex((task) => task.id == id);
+        secNode.parentNode.insertBefore(secNode, taskForm);
+        taskForm.parentNode.insertBefore(secNode, taskForm.nextSibling);
+        break;
+      }
 
-      const secTask = tasksList[index + 1];
-      const secNode = document.getElementById(secTask.id);
+      case 'down': {
+        const id = Number(taskForm.id);
+        const index = tasksList.findIndex((task) => task.id == id);
 
-      [tasksList[index], tasksList[index + 1]] = [tasksList[index + 1], tasksList[index]];
+        const secTask = tasksList[index + 1];
+        const secNode = document.getElementById(secTask.id);
 
-      firstNode.parentNode.insertBefore(firstNode, secNode);
-      secNode.parentNode.insertBefore(firstNode, secNode.nextSibling);
-    });
-  });
-}
+        [tasksList[index], tasksList[index + 1]] = [tasksList[index + 1], tasksList[index]];
 
-function subscribeToDeleteEvent() {
-  const buttonDelete = document.querySelectorAll('#delete');
+        taskForm.parentNode.insertBefore(taskForm, secNode);
+        secNode.parentNode.insertBefore(taskForm, secNode.nextSibling);
+        break;
+      }
 
-  buttonDelete.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const perentNode = btn.closest('.card');
-      const id = Number(perentNode.id);
-      const index = tasksList.findIndex((task) => task.id == id);
-
-      tasksList.splice(index, 1);
-      perentNode.remove();
-    });
+      default:
+        break;
+    }
   });
 }
