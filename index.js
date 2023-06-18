@@ -1,5 +1,6 @@
 import { create, switchCreationButtonState, init } from './task.js';
 import { MockServer } from './mock-server/mock-server.js';
+import { getDropdownTamplate } from './tamplates/task-dropdown.tamplate.js';
 
 const tasksConteinerElement = document.getElementById('tasks');
 const creationTitleElement = document.getElementById('creationTitle');
@@ -24,3 +25,21 @@ buttonAcceptElement.addEventListener('click', () => {
 creationTitleElement.addEventListener('input', () =>
   switchCreationButtonState(buttonPriorityElement, buttonAcceptElement, creationTitleElement)
 );
+
+buttonPriorityElement.addEventListener('click', () => {
+  const dropdown = document.querySelector('.dropdown');
+  if (dropdown) {
+    dropdown.remove();
+    return;
+  }
+
+  buttonPriorityElement.insertAdjacentHTML('afterbegin', getDropdownTamplate());
+});
+
+document.addEventListener('click', () => {
+  const dropdown = document.querySelector('.dropdown');
+
+  if (dropdown) {
+    dropdown.remove();
+  }
+});

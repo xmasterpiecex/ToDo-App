@@ -1,4 +1,5 @@
 import { getTaskTamplate } from './tamplates/task.tamplate.js';
+import { getDropdownTamplate } from './tamplates/task-dropdown.tamplate.js';
 
 let tasksList = [];
 
@@ -8,7 +9,7 @@ export function init(tasks, tasksConteinerElement) {
   tasksList
     .sort((a, b) => b.priorityIndex - a.priorityIndex)
     .forEach((task) => {
-      tasksConteinerElement.insertAdjacentHTML('beforeEnd', getTaskTamplate(task.id, task.title));
+      tasksConteinerElement.insertAdjacentHTML('beforeEnd', getTaskTamplate(task.id, task.title, task.priority));
       subToForm(task);
     });
 }
@@ -32,7 +33,7 @@ export function create(tasksConteinerElement, creationTitleElement) {
 
   tasksList.unshift(newTask);
 
-  tasksConteinerElement.insertAdjacentHTML('afterBegin', getTaskTamplate(newTask.id, newTask.title));
+  tasksConteinerElement.insertAdjacentHTML('afterBegin', getTaskTamplate(newTask.id, newTask.title, newTask.priority));
 
   subToForm(newTask);
   creationTitleElement.value = '';
@@ -49,6 +50,7 @@ function subToForm(task) {
 
   taskForm.addEventListener('submit', (event) => {
     event.preventDefault();
+
     switch (event.submitter.id) {
       case 'delete': {
         const id = Number(taskForm.id);
@@ -84,6 +86,20 @@ function subToForm(task) {
 
         taskForm.parentNode.insertBefore(taskForm, secNode);
         secNode.parentNode.insertBefore(taskForm, secNode.nextSibling);
+        break;
+      }
+
+      case 'priority': {
+        const dropdown = taskForm.querySelector('.dropdown');
+
+        if (dropdown) {
+          dropdown.remove();
+          return;
+        }
+
+        const priorityBtn = taskForm.querySelector('#priority');
+        priorityBtn.insertAdjacentHTML('afterEnd', getDropdownTamplate());
+
         break;
       }
 

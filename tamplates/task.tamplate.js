@@ -1,7 +1,7 @@
-export function getTaskTamplate(id, title) {
+export function getTaskTamplate(id, title, priority) {
   return `<form class="card" id="${id}">
-    <button class="action-button" id="priority" type="submit">
-        <img src="./assets/svg/pririty.svg" alt="" class="svg" />
+    <button class="action-button" id="priority" type="submit" onclick="event.cancelBubble = true;">
+        <img src="./assets/svg/priority-${priority}.svg" alt="" class="svg" />
     </button>
     <div class="card-title">
         <span>${title}</span>
