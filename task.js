@@ -1,5 +1,6 @@
 import { getTaskTamplate } from './tamplates/task.tamplate.js';
 import { getDropdownTamplate } from './tamplates/task-dropdown.tamplate.js';
+import { priorityAction } from './priority-dropdown.js';
 
 let tasksList = [];
 
@@ -14,16 +15,15 @@ export function init(tasks, tasksConteinerElement) {
     });
 }
 
-export function create(tasksConteinerElement, creationTitleElement) {
+export function create(tasksConteinerElement, creationTitleElement, priorityId) {
   if (!creationTitleElement.value.length) return;
 
   const newTask = {
     title: `${creationTitleElement.value}`,
     id: Math.floor(Math.random() * 10000).toString(),
-    priority: 'medium',
+    priority: priorityId ? priorityId : 'medium',
     priorityIndex: tasksList && tasksList.length ? tasksList[0].priorityIndex + 1 : 1,
   };
-
   const isDublicate = tasksList.filter((task) => task.title === creationTitleElement.value).length;
 
   if (isDublicate) {
@@ -98,13 +98,16 @@ function subToForm(task) {
         }
 
         const priorityBtn = taskForm.querySelector('#priority');
-        priorityBtn.insertAdjacentHTML('afterEnd', getDropdownTamplate());
 
+        priorityBtn.insertAdjacentHTML('afterEnd', getDropdownTamplate());
         break;
       }
-
       default:
         break;
     }
+    const priorityBtn = taskForm.querySelector('#priority');
+    const dropdown = taskForm.querySelector('.dropdown');
+
+    priorityAction(event.submitter.id, priorityBtn, dropdown);
   });
 }
