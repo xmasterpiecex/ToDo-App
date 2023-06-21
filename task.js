@@ -1,4 +1,5 @@
 import { getTaskTamplate } from './tamplates/task.tamplate.js';
+import { getEditTamplate } from './tamplates/edit-dialog.tamplate.js';
 
 let tasksList = [];
 
@@ -84,6 +85,19 @@ function subToForm(task) {
 
         taskForm.parentNode.insertBefore(taskForm, secNode);
         secNode.parentNode.insertBefore(taskForm, secNode.nextSibling);
+        break;
+      }
+      case 'edit': {
+        const editBtn = taskForm.querySelector('#edit');
+
+        editBtn.insertAdjacentHTML('afterEnd', getEditTamplate());
+
+        const closeBtn = document.getElementById('close');
+        const editWindow = document.getElementById('edit-window');
+
+        closeBtn.addEventListener('click', () => {
+          editWindow.remove();
+        });
         break;
       }
 
