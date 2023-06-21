@@ -47,7 +47,7 @@ buttonPriorityElement.addEventListener('click', () => {
 
 document.addEventListener('click', () => {
   const dropdown = document.querySelector('.dropdown');
-
+  const editWindow = document.querySelector('.edit-window-conainer');
   if (dropdown) {
     dropdown.remove();
   }

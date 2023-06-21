@@ -146,3 +146,97 @@
 .show {
   visibility: visible;
 }
+
+.edit-window-conainer {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+
+  z-index: 1;
+}
+
+.edit-dialog {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+
+  height: 550px;
+  width: 450px;
+
+  background-color: white;
+}
+
+.edit-dialog-header {
+  display: flex;
+  background-color: black;
+  color: white;
+  justify-content: space-between;
+  height: 50px;
+  width: 100%;
+}
+
+.edit-header-label {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.edit-content-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  flex-direction: column;
+
+  height: 500px;
+  width: 350px;
+}
+
+.card.edit-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 0px;
+  height: 50px;
+  width: 350px;
+}
+
+.edit-description {
+  display: flex;
+  height: 200px;
+  width: 350px;
+  padding: 0px;
+  margin: 0px;
+  font-size: 24px;
+  border: 1px solid;
+}
+
+.edit-description:focus {
+  border-width: 1px;
+  outline: none;
+}
+
+.edit-card-title {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 8px;
+
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-right: 1px solid;
+  border-left: none;
+}
