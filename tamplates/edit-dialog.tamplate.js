@@ -1,13 +1,14 @@
 export function getEditTamplate() {
-  return `<div class="edit-window-conainer" id="edit-window">
+  return `<div class="edit-window-container" id="edit-window">
       <div class="edit-dialog">
         <div class="edit-dialog-header">
           <div class="edit-header-label">
             <img src="./assets/svg/create.svg" class="svg" alt="" />
+
           </div>
           <button class="action-button" id="close"><img src="./assets/svg/close.svg" class="svg" alt="" /></button>
         </div>
-        <div class="edit-content-container">
+        <div class="edit-content">
           <div class="card edit-card">
             <button class="action-button" id="priority" onclick="event.cancelBubble = true;">
               <img src="./assets/svg/dropdown.svg" alt="" class="svg" />

@@ -120,7 +120,7 @@
   border-left: none;
 }
 
-.edit-window-conainer {
+.edit-window-container {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -162,7 +162,7 @@
   padding-left: 10px;
 }
 
-.edit-content-container {
+.edit-content {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -190,6 +190,7 @@
   margin: 0px;
   font-size: 24px;
   border: 1px solid;
+  resize: none;
 }
 
 .edit-description:focus {
