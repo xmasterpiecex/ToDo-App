@@ -71,6 +71,7 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   height: 50px;
   width: 350px;
@@ -118,6 +119,32 @@
   border-width: 1px;
   border-right: none;
   border-left: none;
+}
+
+.dropdown {
+  position: absolute;
+  width: 50px;
+  background: black;
+  top: 50px;
+  z-index: 1;
+}
+
+.dropdown .menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: black;
+}
+
+.menu-item:hover {
+  background-color: #cfdef3;
+  cursor: pointer;
+}
+
+.show {
+  visibility: visible;
 }
 
 .edit-window-container {

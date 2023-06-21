@@ -1,29 +1,30 @@
-import { getTaskTamplate } from './tamplates/task.tamplate.js';
-import { getEditTamplate } from './tamplates/edit-dialog.tamplate.js';
+import { getTaskTamplate } from './task.tamplate.js';
+import { getDropdownTamplate } from '../task-dropdown/task-dropdown.tamplate.js';
+import { priorityAction } from '../task-dropdown/task-dropdown.js';
+import { getEditTamplate } from '../task-edit/edit-dialog.tamplate.js';
 
 let tasksList = [];
 
-export function init(tasks, tasksConteinerElement) {
+export function initTaskList(tasks, tasksConteinerElement) {
   tasksList = tasks;
 
   tasksList
     .sort((a, b) => b.priorityIndex - a.priorityIndex)
     .forEach((task) => {
-      tasksConteinerElement.insertAdjacentHTML('beforeEnd', getTaskTamplate(task.id, task.title));
+      tasksConteinerElement.insertAdjacentHTML('beforeEnd', getTaskTamplate(task.id, task.title, task.priority));
       subToForm(task);
     });
 }
 
-export function create(tasksConteinerElement, creationTitleElement) {
+export function create(tasksConteinerElement, creationTitleElement, priorityId) {
   if (!creationTitleElement.value.length) return;
 
   const newTask = {
     title: `${creationTitleElement.value}`,
     id: Math.floor(Math.random() * 10000).toString(),
-    priority: 'medium',
+    priority: priorityId ? priorityId : 'medium',
     priorityIndex: tasksList && tasksList.length ? tasksList[0].priorityIndex + 1 : 1,
   };
-
   const isDublicate = tasksList.filter((task) => task.title === creationTitleElement.value).length;
 
   if (isDublicate) {
@@ -33,7 +34,7 @@ export function create(tasksConteinerElement, creationTitleElement) {
 
   tasksList.unshift(newTask);
 
-  tasksConteinerElement.insertAdjacentHTML('afterBegin', getTaskTamplate(newTask.id, newTask.title));
+  tasksConteinerElement.insertAdjacentHTML('afterBegin', getTaskTamplate(newTask.id, newTask.title, newTask.priority));
 
   subToForm(newTask);
   creationTitleElement.value = '';
@@ -50,6 +51,7 @@ function subToForm(task) {
 
   taskForm.addEventListener('submit', (event) => {
     event.preventDefault();
+
     switch (event.submitter.id) {
       case 'delete': {
         const id = Number(taskForm.id);
@@ -101,8 +103,24 @@ function subToForm(task) {
         break;
       }
 
+      case 'priority': {
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach((item) => {
+          if (item) {
+            item.remove();
+          }
+        });
+
+        event.submitter.insertAdjacentHTML('afterEnd', getDropdownTamplate());
+        break;
+      }
       default:
         break;
     }
+    const priorityBtn = taskForm.querySelector('#priority');
+    const dropdown = taskForm.querySelector('.dropdown');
+
+    priorityAction(event.submitter.id, priorityBtn, dropdown);
   });
 }
