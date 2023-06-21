@@ -1,10 +1,10 @@
-import { getTaskTamplate } from './tamplates/task.tamplate.js';
-import { getDropdownTamplate } from './tamplates/task-dropdown.tamplate.js';
-import { priorityAction } from './priority-dropdown.js';
+import { getTaskTamplate } from './task.tamplate.js';
+import { getDropdownTamplate } from '../task-dropdown/task-dropdown.tamplate.js';
+import { priorityAction } from '../task-dropdown/task-dropdown.js';
 
 let tasksList = [];
 
-export function init(tasks, tasksConteinerElement) {
+export function initTaskList(tasks, tasksConteinerElement) {
   tasksList = tasks;
 
   tasksList
@@ -90,16 +90,15 @@ function subToForm(task) {
       }
 
       case 'priority': {
-        const dropdown = taskForm.querySelector('.dropdown');
+        const dropdowns = document.querySelectorAll('.dropdown');
 
-        if (dropdown) {
-          dropdown.remove();
-          return;
-        }
+        dropdowns.forEach((item) => {
+          if (item) {
+            item.remove();
+          }
+        });
 
-        const priorityBtn = taskForm.querySelector('#priority');
-
-        priorityBtn.insertAdjacentHTML('afterEnd', getDropdownTamplate());
+        event.submitter.insertAdjacentHTML('afterEnd', getDropdownTamplate());
         break;
       }
       default:

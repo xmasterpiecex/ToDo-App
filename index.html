@@ -12,17 +12,17 @@
       <input type="text" value="Alex ToDo" class="bord-title-input" />
     </div>
     <div class="card-container creation">
-      <div class="card">
-        <button class="action-button" id="priority" disabled onclick="event.cancelBubble = true;">
+      <form class="card" id="creation">
+        <button class="action-button" id="priority" type="submit" disabled onclick="event.cancelBubble = true;">
           <img src="./assets/svg/dropdown.svg" alt="" class="svg" />
         </button>
         <div class="card-title">
           <input type="text" class="creation-card-input" placeholder="Add new task" id="creationTitle" />
         </div>
-        <button class="action-button" id="accept" disabled>
+        <button class="action-button" id="accept" disabled type="submit" onclick="event.cancelBubble = true;">
           <img src="./assets/svg/done.svg" alt="" class="svg" />
         </button>
-      </div>
+      </form>
     </div>
     <div class="card-container tasks" id="tasks"></div>
     <script type="module" src="./index.js"></script>

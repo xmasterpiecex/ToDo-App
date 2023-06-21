@@ -3,7 +3,7 @@ export function setPriority(imgName, btnPriority, priorityId) {
   const src = imgElement.src.substring(0, imgElement.src.lastIndexOf('/') + 1);
 
   imgElement.src = `${src}${imgName}.svg`; //src + 'priority-' + event.submitter.id + '.svg';
-  //   btnPriority.id = 'priority' + ' ' + priorityId;
+  btnPriority.setAttribute('value', priorityId);
 }
 
 export function priorityAction(priorityId, btnPriority, priorityForm) {
