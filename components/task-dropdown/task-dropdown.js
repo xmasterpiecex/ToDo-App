@@ -6,26 +6,30 @@ export function setPriority(imgName, btnPriority, priorityId) {
   btnPriority.setAttribute('value', priorityId);
 }
 
-export function priorityAction(priorityId, btnPriority, priorityForm) {
+export function priorityAction(priorityId, btnPriority, priorityForm, task) {
   switch (priorityId) {
     case 'high': {
       setPriority('priority-' + priorityId, btnPriority, priorityId);
       priorityForm.remove();
+      task.priority = priorityId;
       break;
     }
     case 'medium': {
       setPriority('priority-' + priorityId, btnPriority, priorityId);
       priorityForm.remove();
+      task.priority = priorityId;
       break;
     }
     case 'low': {
       setPriority('priority-' + priorityId, btnPriority, priorityId);
       priorityForm.remove();
+      task.priority = priorityId;
       break;
     }
     case 'urgent': {
       setPriority('priority-' + priorityId, btnPriority, priorityId);
       priorityForm.remove();
+      task.priority = priorityId;
       break;
     }
   }

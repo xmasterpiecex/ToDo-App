@@ -1,4 +1,4 @@
-export function getEditTamplate() {
+export function getEditTamplate(task) {
   return `<div class="edit-window-container" id="edit-window">
       <div class="edit-dialog">
         <div class="edit-dialog-header">
@@ -8,13 +8,13 @@ export function getEditTamplate() {
           </div>
           <button class="action-button" id="close"><img src="./assets/svg/close.svg" class="svg" alt="" /></button>
         </div>
-        <div class="edit-content">
+        <form class="edit-content">
           <div class="card edit-card">
-            <button class="action-button" id="priority" onclick="event.cancelBubble = true;">
-              <img src="./assets/svg/dropdown.svg" alt="" class="svg" />
+            <button class="action-button" id="edit-priority" type="submit" onclick="event.cancelBubble = true;">
+              <img src="./assets/svg/priority-${task.priority}.svg" alt="" class="svg" />
             </button>
             <div class="edit-card-title">
-              <input type="text" class="creation-card-input" placeholder="Add new task" id="creationTitle" />
+              <input type="text" class="creation-card-input" placeholder="" id="creationTitle" value="${task.title}"/>
             </div>
           </div>
           <textarea
@@ -22,11 +22,11 @@ export function getEditTamplate() {
             id="description"
             class="edit-description"
             placeholder="Add description"
-          ></textarea>
-          <button class="action-button" id="accept">
+          >${task.description}</textarea>
+          <button class="action-button" id="accept" type="submit">
             <img src="./assets/svg/done.svg" alt="" class="svg" />
           </button>
-        </div>
+        </form>
       </div>
     </div>`;
 }
