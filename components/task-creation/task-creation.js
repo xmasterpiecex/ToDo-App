@@ -37,7 +37,7 @@ function subToFormChanges() {
         dropdownForm.addEventListener('submit', (event) => {
           event.preventDefault();
 
-          priorityAction(event.submitter.id, buttonPriorityElement, dropdownForm);
+          priorityAction(event.submitter.id, buttonPriorityElement, dropdownForm, { priority: '' });
         });
         break;
       }
@@ -54,6 +54,6 @@ function subToFormChanges() {
     const priorityBtn = creationFormElement.querySelector('#priority');
     const dropdown = creationFormElement.querySelector('.dropdown');
 
-    priorityAction(event.submitter.id, priorityBtn, dropdown);
+    priorityAction(event.submitter.id, priorityBtn, dropdown, { priority: '' });
   });
 }
