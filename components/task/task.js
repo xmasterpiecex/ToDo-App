@@ -2,6 +2,7 @@ import { getTaskTamplate } from './task.tamplate.js';
 import { getDropdownTamplate } from '../task-dropdown/task-dropdown.tamplate.js';
 import { priorityAction, setPriority } from '../task-dropdown/task-dropdown.js';
 import { getEditTamplate } from '../task-edit/edit-dialog.tamplate.js';
+import { getDeleteTamplate } from '../task-delete/delete-dialog.tamplate.js';
 
 let tasksList = [];
 
@@ -55,11 +56,27 @@ function subToForm(task) {
 
     switch (event.submitter.id) {
       case 'delete': {
-        const id = Number(taskForm.id);
-        const index = tasksList.findIndex((task) => task.id == id);
+        const bordTitle = document.querySelector('.bord-title');
 
-        tasksList.splice(index, 1);
-        taskForm.remove();
+        bordTitle.insertAdjacentHTML('afterend', getDeleteTamplate());
+
+        const yesBtn = document.getElementById('delete-yes');
+        const noBtn = document.getElementById('delete-no');
+        const editWindow = document.getElementById('delete-window');
+
+        noBtn.addEventListener('click', () => {
+          editWindow.remove();
+        });
+
+        yesBtn.addEventListener('click', () => {
+          const id = Number(taskForm.id);
+          const index = tasksList.findIndex((task) => task.id == id);
+
+          tasksList.splice(index, 1);
+          taskForm.remove();
+          editWindow.remove();
+        });
+
         break;
       }
 
@@ -90,6 +107,7 @@ function subToForm(task) {
         secNode.parentNode.insertBefore(taskForm, secNode.nextSibling);
         break;
       }
+
       case 'edit': {
         const editBtn = document.querySelector('.bord-title');
 
